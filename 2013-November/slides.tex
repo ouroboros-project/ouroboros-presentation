@@ -1,0 +1,1437 @@
+\documentclass[brazil]{beamer}
+\usepackage{beamerthemesplit}
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{fancybox}
+\usepackage{ulem}
+\usepackage{listings}
+\usepackage{upquote}
+\usetheme{JuanLesPins}
+%\usetheme{Warsaw}
+%\usetheme{CambridgeUS}
+%\usetheme{Malmoe}
+
+
+%\newcommand{\lyxline}[1][1pt]{%
+%  \par\noindent%
+%  \rule[.5ex]{\linewidth}{#1}\par}
+
+
+\title{
+  Projeto Ouroboros
+}
+\subtitle{
+  Um sistema de integração automatizada entre C++ e
+  linguagens de script
+}
+\author{Wilson Kazuo Mizutani e Fernando Omar Aluani}
+
+\begin{document}
+
+\lstdefinelanguage{lua}
+  {morekeywords={and,break,do,else,elseif,end,false,for,function,if,in,local,
+     nil,not,or,repeat,return,then,true,until,while},
+   morekeywords={[2]arg,assert,collectgarbage,dofile,error,_G,getfenv,
+     getmetatable,ipairs,load,loadfile,loadstring,next,pairs,pcall,print,
+     rawequal,rawget,rawset,select,setfenv,setmetatable,tonumber,tostring,
+     type,unpack,_VERSION,xpcall},
+   morekeywords={[2]coroutine.create,coroutine.resume,coroutine.running,
+     coroutine.status,coroutine.wrap,coroutine.yield},
+   morekeywords={[2]module,require,package.cpath,package.load,package.loaded,
+     package.loaders,package.loadlib,package.path,package.preload,
+     package.seeall},
+   morekeywords={[2]string.byte,string.char,string.dump,string.find,
+     string.format,string.gmatch,string.gsub,string.len,string.lower,
+     string.match,string.rep,string.reverse,string.sub,string.upper},
+   morekeywords={[2]table.concat,table.insert,table.maxn,table.remove,
+   table.sort},
+   morekeywords={[2]math.abs,math.acos,math.asin,math.atan,math.atan2,
+     math.ceil,math.cos,math.cosh,math.deg,math.exp,math.floor,math.fmod,
+     math.frexp,math.huge,math.ldexp,math.log,math.log10,math.max,math.min,
+     math.modf,math.pi,math.pow,math.rad,math.random,math.randomseed,math.sin,
+     math.sinh,math.sqrt,math.tan,math.tanh},
+   morekeywords={[2]io.close,io.flush,io.input,io.lines,io.open,io.output,
+     io.popen,io.read,io.tmpfile,io.type,io.write,file:close,file:flush,
+     file:lines,file:read,file:seek,file:setvbuf,file:write},
+   morekeywords={[2]os.clock,os.date,os.difftime,os.execute,os.exit,os.getenv,
+     os.remove,os.rename,os.setlocale,os.time,os.tmpname},
+   alsodigit = {.},
+   sensitive=true,
+   morecomment=[l]{--},
+   morecomment=[s]{--[[}{]]},
+   morestring=[b]",
+   morestring=[d]',
+   morestring=[s]{[[}{]]},
+  }
+
+%\lstset{language=c,
+%        numbers=left,
+%        numberstyle=\tiny,
+%        showstringspaces=false,
+%        aboveskip=-40pt,
+%        frame=leftline
+%        }
+\lstset{
+  language=lua,
+  basewidth=0.5em,
+  numbers=left,
+  numbersep=5pt,
+  basicstyle=\ttfamily\scriptsize,
+  keywordstyle=\color{blue}\bfseries,
+  keywordstyle=[2]\color{blue},
+  commentstyle=\color[rgb]{0,.6,0},
+  stringstyle=\color{red},
+  showstringspaces=false,
+  upquote=true,
+  escapeinside={(*}{*)},
+  escapebegin=\itshape,
+}
+
+\frame{\titlepage}
+
+\frame{\tableofcontents}
+
+%-------------------------------------
+\section{Introdução e breve histórico}
+%-------------------------------------
+\frame{
+  \begin{center}
+  \LARGE 1. Introdução e breve histórico
+  \end{center}
+}
+%-------------------------------------
+\frame{
+  \frametitle{Histórico}
+  \begin{itemize}
+    \item Projeto da PUC-Rio (Tecgraf e LabLua)
+    \pause
+    \item Site oficial: www.lua.org
+    \pause
+    \item Últimas versões:
+    \pause
+    \begin{itemize}
+      \item 5.0 (obsoleto)
+      \pause
+      \item 5.1 (atual)
+      \pause
+      \item 5.2 (muito hipster ainda)
+    \end{itemize}
+  \end{itemize}
+}
+%-------------------------------------
+\frame{
+  \frametitle{Principais características}
+  \begin{itemize}
+    \pause
+    \item Simplicidade
+    \pause
+    \item Eficiência
+    \pause
+    \item Versatilidade
+    \pause
+    \item Leveza
+  \end{itemize}
+}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Exercício 1.1: Hello World!!!}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{helloworld.lua}
+        \begin{lstlisting}
+-- My hello world Lua program:
+print "Hello World!"
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{Saída}
+        \begin{verbatim}
+Hello World!  \end{verbatim}
+      \end{block}
+  \end{columns}
+\end{frame}
+%-------------------------------------
+\section{Expressões básicas}
+%-------------------------------------
+\frame{
+  \begin{center}
+  \LARGE 2. Expressões básicas
+  \end{center}
+}
+%-------------------------------------
+\subsection{2.1. Tipos escalares.}
+%-------------------------------------
+\frame{
+  \begin{center}
+  \Large 2.1. Tipos escalares
+  \end{center}
+}
+%-------------------------------------
+\frame{
+  \frametitle{Tipagem Dinâmica}
+  \begin{itemize}
+    \pause
+    \item Comum em linguagens de script.
+    \pause
+    \item O tipo de uma variável é definido pelo valor atual dela.
+    \pause
+    \item Portanto, o tipo de uma variável pode mudar ao longo do
+          programa.
+  \end{itemize}
+}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{O tipo e valor nil}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{nil.lua}
+        \begin{lstlisting}
+-- x has a nil value.
+x = nil
+print(x)
+print(type(x))
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{Saída:}
+        \begin{verbatim}
+nil
+nil     \end{verbatim}
+      \end{block}
+  \end{columns}
+\end{frame}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{O tipo e valor nil}
+  \begin{center}E agora?\end{center}
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{nil.lua}
+        \begin{lstlisting}
+-- x has a nil value.
+-- x = nil
+print(x)
+print(type(x))
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{Saída:}
+        \begin{verbatim}
+nil
+nil     \end{verbatim}
+      \end{block}
+  \end{columns}
+  \pause
+  \begin{center}
+    Importante! Variáveis não inicializadas (que "não existem")
+    assumem automaticamente o valor de nil.
+  \end{center}
+\end{frame}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Valores booleanos}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{boolean.lua}
+        \begin{lstlisting}
+-- x and y have boolean values.
+x = false
+y = true
+print(type(x), x)
+print(type(y), y)
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{Saída:}
+        \begin{verbatim}
+boolean   false
+boolean   true  \end{verbatim}
+      \end{block}
+  \end{columns}
+\end{frame}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Valores numéricos}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{number.lua}
+        \begin{lstlisting}
+-- x and y have number values.
+x = 42
+y = .9e4 + 1
+print(type(x), x)
+print(type(y), y)
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{Saída:}
+        \begin{verbatim}
+number  42
+number  9001  \end{verbatim}
+      \end{block}
+  \end{columns}
+\end{frame}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Cadeias de caracteres (string)}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{string.lua}
+        \begin{lstlisting}
+-- x and y have string values.
+x = "hello"
+y = [[
+This is a multi-lined
+text, which is very common
+in scripting languages.]]
+print(type(x), x)
+print(type(y))
+print(y)
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{Saída:}
+        \begin{verbatim}
+string  hello
+string
+This is a multi-lined
+text, which is very common
+in scripting languages.  \end{verbatim}
+      \end{block}
+  \end{columns}
+\end{frame}
+%-------------------------------------
+\subsection{2.2. Operações básicas}
+%-------------------------------------
+\frame{
+  \begin{center}
+  \Large 2.2. Operações básicas
+  \end{center}
+}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Atribuição}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{assignment.lua}
+        \begin{lstlisting}
+-- Simple assignment.
+x = 10
+y = 20
+-- Complex assignment
+a, b, c = true, "sometext", 99
+print(a, b, c)
+-- Cross assignment. What happens?
+x, y = y, x
+print(x, y)
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{Saída 1:}
+        \begin{verbatim}
+true  sometext  99 \end{verbatim}
+      \end{block}
+      \pause
+      \begin{block}{Saída 2:}
+        \begin{verbatim}
+20 10 \end{verbatim}
+      \end{block}
+  \end{columns}
+  \pause
+  \begin{center}
+    Variáveis em excesso ficam com 'nil'. \\
+    Valores em excesso são ignorados.
+  \end{center}
+\end{frame}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Operadores aritméticos e concatenação}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{arithmetic.lua}
+        \begin{lstlisting}
+-- Simple math
+x = (10 * (42 + 7)) / (5 * 7 + 192)
+-- Also power and module
+y = 6.022 * 10 ^ 23
+z = 19238479127491 % 5
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{concatenation.lua}
+        \begin{lstlisting}
+-- String concatenation.
+s = "Hakuna".." Matata"
+length = #"heeey"
+        \end{lstlisting}
+      \end{block}
+  \end{columns}
+  \pause
+  \begin{center}
+    É possível usar variáveis no lugar dos valores.
+  \end{center}
+\end{frame}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Conversão implícita entre numbers e strings}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{conversion.lua}
+        \begin{lstlisting}
+-- x has a number value and
+-- y has a string value.
+x = 13
+y = "37"
+-- what about z and w?
+z = x + y
+w = x .. y
+print(type(z), z)
+print(type(w), w)
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{Saída:}
+        \begin{verbatim}
+number  50
+string  1337  \end{verbatim}
+      \end{block}
+  \end{columns}
+\end{frame}
+%-------------------------------------
+%% TODO: exercício
+\frame{
+  \frametitle{Exercício 2.1}
+}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Operadores relacionais e lógicos}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{relational.lua}
+        \begin{lstlisting}
+-- Relational operators always
+-- return boolean values
+less, notless = (x < y), (y >= x);
+equal = (x == y)
+different = (x ~= y)
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{logical.lua}
+        \begin{lstlisting}
+-- 'not' inverts boolean evaluation
+nottrue = not true
+-- If x evaluates true, returns y,
+-- else returns x.
+condition1 = x and y
+-- If x evaluates true, return x,
+-- else returns y.
+condition2 = x or y
+        \end{lstlisting}
+      \end{block}
+  \end{columns}
+\end{frame}
+%-------------------------------------
+\section{Expressões de controle}
+%-------------------------------------
+\frame{
+  \begin{center}
+  \LARGE 3. Expressões de controle
+  \end{center}
+}
+%-------------------------------------
+\subsection{3.1. Estruturas}
+%-------------------------------------
+\frame{
+  \begin{center}
+  \Large 3.1. Estruturas
+  \end{center}
+}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Estrutura if..then..else }
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{ifthenelse.lua}
+        \begin{lstlisting}
+-- Condition statement.
+if x < 10 then
+  -- do something
+elseif x < 20 then
+  -- do something else
+else
+  -- do yet another something
+end 
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{vartest.lua}
+        \begin{lstlisting}
+-- A variable evalues to true if
+-- and only if its value is neither
+-- nil nor false.
+if x then
+  -- x is neither nil nor false
+else
+  -- x is nil or false
+end
+        \end{lstlisting}
+      \end{block}
+  \end{columns}
+  \pause
+  \begin{center}
+    Zero não é avaliado para falso!
+  \end{center}
+\end{frame}
+%-------------------------------------
+%% TODO: exercício
+\frame{
+  \frametitle{Exercício 3.1}
+}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Estruturas while e repeat..until}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{while.lua}
+        \begin{lstlisting}
+-- Loops while the condition is
+-- true.
+i = 1
+while i <= 10 do
+  -- something that happens
+  -- 10 times
+  i = i + 1
+end
+-- Loops forever... not.
+while true do
+  -- how many times?
+  i = i - 1
+  break
+end
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{repeatuntil.lua}
+        \begin{lstlisting}
+-- Loops until the condition is
+-- true.
+i = 1
+repeat
+  -- something that happens
+  -- 10 times
+  i = i + 1
+until i == 10
+-- Loops foerever... neither.
+repeat
+  -- and now, how many times?
+  i = i - 1
+  if i < 5 then break end
+until false
+        \end{lstlisting}
+      \end{block}
+  \end{columns}
+\end{frame}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Estrutura for}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{for.lua}
+        \begin{lstlisting}
+-- Loops from i = 1 to i = 5
+for i = 1,5 do
+  print(i)
+end
+
+-- Loops from i = 1 to i = 5
+-- jumping by 2 at a time.
+for i = 1,5,2 do
+  print(i)
+end
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{Saída 1:}
+        \begin{verbatim}
+1
+2
+3
+4
+5 \end{verbatim}
+      \end{block}
+      \pause
+      \begin{block}{Saída 2:}
+        \begin{verbatim}
+1
+3
+5 \end{verbatim}
+      \end{block}
+  \end{columns}
+\end{frame}
+%-------------------------------------
+%% TODO: exercício
+%% sugestão: fazer um mesmo loop usando while, repeat e for.
+\frame{
+  \frametitle{Exercício 3.2}
+}
+%-------------------------------------
+\subsection{3.2. Escopo.}
+%-------------------------------------
+\frame{
+  \begin{center}
+  \Large 3.2. Escopo
+  \end{center}
+}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Escopo global}
+  \pause
+  \begin{center}
+    Por padrão, as variáveis são todas globais.
+  \end{center}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{scope1.lua}
+        \begin{lstlisting}
+-- Changing the value of x
+x = 0
+if true then
+  x = x + 1
+end
+print(x)
+        \end{lstlisting}
+      \end{block}
+      \pause
+      \begin{block}{Saída 1:}
+        \begin{verbatim}
+1 \end{verbatim}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{scope2.lua}
+        \begin{lstlisting}
+-- Does x exists?
+if true then
+  x = 1
+end
+print(x)
+        \end{lstlisting}
+      \end{block}
+      \pause
+      \begin{block}{Saída 2:}
+        \begin{verbatim}
+1 \end{verbatim}
+      \end{block}
+  \end{columns}
+\end{frame}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Escopo local}
+  \pause
+  \begin{center}
+    É preciso explicitar as variáveis locais.
+  \end{center}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{local.lua}
+        \begin{lstlisting}
+-- x will not be a global variable.
+local x = 0
+y = 5
+do
+  local x = 10
+  do
+    y = 20
+    print(x, y)
+  end
+end
+print(x, y)
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{Saída 1:}
+        \begin{verbatim}
+10  20\end{verbatim}
+      \end{block}
+      \pause
+      \begin{block}{Saída 2:}
+        \begin{verbatim}
+0   20\end{verbatim}
+      \end{block}
+  \end{columns}
+\end{frame}
+%-------------------------------------
+\frame{
+  \frametitle{Blocos}
+  \begin{itemize}
+    \pause
+    \item Um script lua apresenta uma hierarquia de blocos.
+    \pause
+    \item Um bloco é uma sequência de comandos, como os
+          exemplos que vimos até agora.
+    \pause
+    \item Um bloco pode ter outros blocos dentro de si,
+          através de:
+    \begin{itemize}
+      \pause
+      \item estruturas de controle (if, while, for, etc);
+      \pause
+      \item definições de funções; ou
+      \pause
+      \item uso explícito de "do..end".
+    \end{itemize}
+  \end{itemize}
+}
+%-------------------------------------
+\frame{
+  \frametitle{Visibilidade}
+  \begin{itemize}
+    \pause
+    \item Variáveis globais são visíveis a partir de
+          qualquer bloco, contanto que não esteja
+          obscurecida por alguma variável local visível
+          de mesmo nome.
+    \pause
+    \item Variáveis locais são visíveis no bloco em que
+          foram declaradas e nos blocos aninhados nele,
+          contanto que sejam referenciadas após a linha em
+          que foram definidas.
+    \pause
+    \item Se um bloco tenta acessar uma variável que não
+          está visível de jeito nenhum para ele, ele
+          receberá um 'nil'.
+  \end{itemize}
+}
+%-------------------------------------
+%% TODO: exercício "o i do for é global ou local?"
+\frame{
+  \frametitle{Exercício 3.3}
+}
+%-------------------------------------
+\section{Funções}
+%-------------------------------------
+\frame{
+  \begin{center}
+  \LARGE 4. Funções
+  \end{center}
+}
+%-------------------------------------
+\subsection{4.1. Criando e usando funções}
+%-------------------------------------
+\frame{
+  \begin{center}
+  \Large 4.1. Criando e usando funções
+  \end{center}
+}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{O tipo function}
+  \pause
+  \begin{center}
+    Função é um tipo nativo em Lua!
+  \end{center}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{function.lua}
+        \begin{lstlisting}
+-- f has a function value
+f = function() end
+print(type(f))
+print(f)
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{Saída:}
+        \begin{verbatim}
+function
+function: 0x9d74b0  \end{verbatim}
+      \end{block}
+      \pause
+      Não é um tipo escalar.
+  \end{columns}
+\end{frame}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Definindo e usando funções}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{functiondef.lua}
+        \begin{lstlisting}
+-- f takes x and returns x+10
+f = function(x)
+  return x + 10
+end
+-- Another way to do it:
+function g(x)
+  if x < 10 then
+    print "Less than 10"
+  else
+    print "Greater than 10"
+  end
+  -- this one returns nothing
+end
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{functionusage.lua}
+        \begin{lstlisting}
+-- The result is 15
+result = f(5)
+-- Just calling
+g(15)
+-- When passing a single string
+-- argument, parenthesis can be
+-- omitted.
+print "single string arg"
+        \end{lstlisting}
+      \end{block}
+      \pause
+      Argumentos são locais.
+  \end{columns}
+\end{frame}
+%-------------------------------------
+%% TODO exercício
+\frame{
+  \frametitle{Exercício 4.1}
+}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Definindo e usando funções}
+  \pause
+  \begin{center}
+    Quantidade de parâmetros e retornos
+  \end{center}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{functionvardef.lua}
+        \begin{lstlisting}
+-- Functions may receive a
+-- variable number of arguments
+function f(x,y,z,...)
+  local a, b, c = ...
+  return a*x + b*y + c*z
+end
+-- And they may return many
+-- values aswell.
+function g()
+  return "hey","listen"
+end
+-- Or no value at all.
+function h() end
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{functionvarusage.lua}
+        \begin{lstlisting}
+-- Using variable args.
+f(1,2,3) -- error
+f(1,2,3,4,5,6) -- ok
+f() -- error, but possible
+-- Getting multipe returns.
+a,b = g() -- ok
+c = g() -- "listen" is lost
+d = h() -- guess what? nil.
+        \end{lstlisting}
+      \end{block}
+  \end{columns}
+\end{frame}
+%-------------------------------------
+%% TODO exercício
+\frame{
+  \frametitle{Exercício 4.2}
+}
+%-------------------------------------
+\subsection{4.2. Upvalues}
+%-------------------------------------
+\frame{
+  \begin{center}
+  \Large 4.2. Upvalues
+  \end{center}
+}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{I heard you like functions...}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{upvalue.lua}
+        \begin{lstlisting}
+-- Mindblow function
+function yodog (x)
+  local upvalue = x
+  local function result ()
+    return upvalue
+  end
+  return result
+end
+-- Make a few copies
+f = yodog(10)
+g = yodog("fly me to the moon")
+print(f())
+print(g())
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{Saída:}
+        \begin{verbatim}
+10
+fly me to the moon \end{verbatim}
+      \end{block}
+  \end{columns}
+\end{frame}
+%-------------------------------------
+%% TODO exercício
+%% - a variável "upvalue" era necessária?
+\frame{
+  \frametitle{Exercício 4.3}
+}
+%-------------------------------------
+\section{Tabelas}
+%-------------------------------------
+\frame{
+  \begin{center}
+  \LARGE 5. Tabelas
+  \end{center}
+}
+%-------------------------------------
+\subsection{5.1. Criando e manipulando tabelas}
+%-------------------------------------
+\frame{
+  \begin{center}
+  \Large 5.1. Criando e manipulando tabelas
+  \end{center}
+}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{O tipo table}
+  \pause
+  \begin{center}
+    Tabelas, assim como funções, formam um tipo nativo do Lua
+    que não é escalar
+  \end{center}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{table.lua}
+        \begin{lstlisting}
+-- t has a table value
+t = {}
+print(type(t))
+print(t)
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{Saída:}
+        \begin{verbatim}
+table
+table: 0x866780  \end{verbatim}
+      \end{block}
+  \end{columns}
+\end{frame}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Criando uma tabela com campos}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{tablecreation.lua}
+        \begin{lstlisting}
+-- t receives a table initialized
+-- with some fields.
+t = {
+  10, 20, 30,
+  a = 40, b = 50,
+  [3.14159] = "PI"
+}
+-- Print t's contents.
+table.foreach(t, print)
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{Saída:}
+        \begin{verbatim}
+1       10
+2       20
+3       30
+a       40
+3.14159 PI
+b       50  \end{verbatim}
+      \end{block}
+  \end{columns}
+\end{frame}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Inserindo campos após a criação}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{tableinsertion.lua}
+        \begin{lstlisting}
+-- t receives an empty table
+t = {}
+-- Inserting some fields.
+t[1] = true
+t[0.999] = "almost one"
+t["a function!"] = function() end
+-- Syntax sugar for string keys:
+t.somefield = {}
+-- Print t's contents.
+table.foreach(t, print)
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{Saída:}
+        \begin{verbatim}
+1           true
+a function! function: ...
+0.999       almost one
+somefield   table: ...    \end{verbatim}
+      \end{block}
+  \end{columns}
+\end{frame}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Removendo campos}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{tableremoval.lua}
+        \begin{lstlisting}
+-- t receives a non-empty table.
+t = { 10, 20, 30 }
+-- Let's check it out.
+table.foreach(t, print)
+-- Removing middle field.
+t[2] = nil
+-- What about now?
+table.foreach(t, print)
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{Saída 1:}
+        \begin{verbatim}
+1 10
+2 20
+3 30    \end{verbatim}
+      \end{block}
+      \begin{block}{Saída 2:}
+        \begin{verbatim}
+1 10
+3 30    \end{verbatim}
+      \end{block}
+  \end{columns}
+  \pause
+  \begin{center}
+    É o mesmo de antes: campos que valem 'nil' não existem!
+  \end{center}
+\end{frame}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Acessando campos pela chave}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{tableaccess.lua}
+        \begin{lstlisting}
+-- Let's go back to the table:
+t = {
+  10, 20, 30,
+  a = 40, b = 50,
+  [3.14159] = "PI"
+}
+-- Access fields
+print(t[1], t[2], t[3])
+print(t["a"], t["b"], t[3.14159])
+-- Also works
+print(t.a, t.b)
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{Saída 1:}
+        \begin{verbatim}
+10  20  30 \end{verbatim}
+      \end{block}
+      \pause
+      \begin{block}{Saída 2:}
+        \begin{verbatim}
+40  50  PI \end{verbatim}
+      \end{block}
+      \pause
+      \begin{block}{Saída 3:}
+        \begin{verbatim}
+40  50 \end{verbatim}
+      \end{block}
+  \end{columns}
+\end{frame}
+%-------------------------------------
+%% TODO: exercício
+\frame{
+  \frametitle{Exercício 5.1}
+}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Acessando campos usando for}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{tablefor.lua}
+        \begin{lstlisting}
+-- Same table again:
+t = {
+  10, 20, 30,
+  a = 40, b = 50,
+  [3.14159] = "PI"
+}
+-- All fields
+for k,v in pairs(t) do
+  print(k,v)
+end
+-- Indexed fields
+for i,v in ipairs(t) do
+  print(i,v)
+end
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{Saída 1:}
+        \begin{verbatim}
+1       10
+2       20
+3       30
+a       40
+3.14159 PI
+b       50  \end{verbatim}
+      \end{block}
+      \pause
+      \begin{block}{Saída 2:}
+        \begin{verbatim}
+1       10
+2       20
+3       30 \end{verbatim}
+      \end{block}
+  \end{columns}
+\end{frame}
+%-------------------------------------
+%% TODO: exercício
+\frame{
+  \frametitle{Exercício 5.2}
+}
+%% - sugestão: construir "tabuada"
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Acessando campos usando foreach}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{tableforeach.lua}
+        \begin{lstlisting}
+-- He likes us:
+t = {
+  10, 20, 30,
+  a = 40, b = 50,
+  [3.14159] = "PI"
+}
+-- All fields
+table.foreach(t, print)
+-- Indexed fields
+table.foreachi(t, print)
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{Saída 1:}
+        \begin{verbatim}
+1       10
+2       20
+3       30
+a       40
+3.14159 PI
+b       50  \end{verbatim}
+      \end{block}
+      \pause
+      \begin{block}{Saída 2:}
+        \begin{verbatim}
+1       10
+2       20
+3       30 \end{verbatim}
+      \end{block}
+  \end{columns}
+\end{frame}
+%-------------------------------------
+%% TODO: exercício
+\frame{
+  \frametitle{Exercício 5.3}
+}
+%% - desafio: qual a diferença entre
+%%   usar pairs e usar foreach?
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Tamanho da tabela}
+  \pause
+  \begin{center}
+    Funciona apenas para campos indexados
+  \end{center}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{tablelength.lua}
+        \begin{lstlisting}
+-- One last time?
+t = {
+  10, 20, 30,
+  a = 40, b = 50,
+  [3.14159] = "PI"
+}
+-- Table length
+print(#t)
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{Saída:}
+        \begin{verbatim}
+3 \end{verbatim}
+      \end{block}
+  \end{columns}
+\end{frame}
+%-------------------------------------
+%% TODO exercício
+\frame{
+  \frametitle{Exercício 5.4}
+}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Possibilidades e restrições}
+  \begin{itemize}
+    \pause
+    \item Praticamente QUALQUER COISA pode ser inserido em uma
+          tabela de Lua, seja como chave ou como valor.
+    \pause
+    \item Isso significa que tabelas podem ter outras tabelas e
+          até mesmo funçoes como chaves e valores!
+    \pause
+    \item A ÚNICA EXCEÇÃO é o \verb$nil$:
+    \begin{itemize}
+      \pause
+      \item Chaves NUNCA podem ser \verb$nil$ (isso causa um erro)
+      \pause
+      \item Campos com valores \verb$nil$ são removidos da tabela.
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Tabelas são referências}
+  \pause
+  \begin{center}
+    Veja o que acontece quando passamos uma tabela como
+    argumento de uma função que tenta mudar ela
+  \end{center}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{tableisreference.lua}
+        \begin{lstlisting}
+-- Starts with x = 20
+t = { x = 20 }
+print(t.x)
+-- This changes it
+function change (ref)
+  ref.x = "not"
+end
+change(t)
+print(t.x)
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{Saída:}
+        \begin{verbatim}
+20
+not \end{verbatim}
+      \end{block}
+  \end{columns}
+\end{frame}
+%-------------------------------------
+%% TODO exercício
+\frame{
+  \frametitle{Exercício 5.5}
+}
+%-------------------------------------
+\subsection{5.2. Atalhos}
+%-------------------------------------
+\frame{
+  \begin{center}
+  \Large 5.2. Atalhos
+  \end{center}
+}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Argumento único}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{uniquearg.lua}
+        \begin{lstlisting}
+-- Sums all indexed fields
+function sum (t)
+  local result = 0
+  for _,v in ipairs(t) do
+    result = result + v
+  end
+  return result
+end
+-- Just like with strings
+x = sum { 15, 26, -31 }
+        \end{lstlisting}
+      \end{block}
+  \end{columns}
+\end{frame}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Métodos}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{method1.lua}
+        \begin{lstlisting}
+-- A method is a function within
+-- a table that takes the table
+-- itself as its first argument:
+t = { "a", "b", "c" }
+function t.ls(self)
+  table.foreach(self, print)
+end
+-- But then we have to do this:
+t.ls(t)
+-- Which is annoying. Lua has
+-- a syntax sugar for that:
+t:ls()
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{method2.lua}
+        \begin{lstlisting}
+-- The syntax sugar also works
+-- for method definitions, in
+-- which case the first argument
+-- will be implicit, being
+-- called 'self'
+function t:size()
+  return table.getn(self)
+end
+        \end{lstlisting}
+      \end{block}
+  \end{columns}
+\end{frame}
+%-------------------------------------
+%% TODO exercício
+\frame{
+  \frametitle{Exercício 5.6}
+}
+%-------------------------------------
+\section{Bibliotecas básicas}
+%-------------------------------------
+\frame{
+  \begin{center}
+    \LARGE 6. Bibliotecas básicas
+  \end{center}
+}
+%-------------------------------------
+\begin{frame}
+  \vspace{15pt}
+  Em inglês: \url{http://www.lua.org/manual/5.1/}
+
+  Em português: \url{http://www.lua.org/manual/5.1/pt/}
+\end{frame}
+%-------------------------------------
+%% TODO exercício
+\frame{
+  \frametitle{Exercícios 6.*}
+}
+%-------------------------------------
+\section{Unlimited slide works}
+%-------------------------------------
+\frame{
+  \begin{center}
+    \LARGE ENFIM...
+  \end{center}
+}
+%-------------------------------------
+\begin{frame}
+  \frametitle{Tópicos avançados que não aparecem nos slides}
+  \begin{itemize}
+    \item Tipos thread e userdata.
+    \item Bibliotecas avançadas: module. debug e thread.
+    \item Ambientes de funções.
+    \item Metatabelas.
+    \item API C.
+  \end{itemize}
+\end{frame}
+%-------------------------------------
+\begin{frame}
+  \begin{center}
+    \LARGE Obrigado!
+  \end{center}
+  \begin{itemize}
+    \item Visitem www.uspgamedev.org
+    \item Dúvidas: kazuo@uspgamedev.org
+    \item Se seu interesse for desenvolvimento de games,
+          vale MUITO a pena dar uma conferida na engine
+          LÖVE2D.
+    \begin{itemize}
+      \item Site oficial: www.love2d.org
+      \item Jogo feito com LÖVE2D: http://stabyourself.net/mari0
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+%-------------------------------------
+\end{document}
+
