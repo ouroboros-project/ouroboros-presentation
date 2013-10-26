@@ -4,6 +4,10 @@
 \usepackage[utf8]{inputenc}
 \usepackage{color}
 \usepackage{xcolor}
+\usepackage{graphicx}
+%\usepackage{subcaption}
+\usepackage{float}
+\usepackage{wrapfig}
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{fancybox}
@@ -35,6 +39,42 @@
 % ---------------------------------------------------------------------------- %
 % Opções de listing usados para o código fonte
 % Ref: http://en.wikibooks.org/wiki/LaTeX/Packages/Listings
+\lstdefinelanguage{lua}
+  {morekeywords={and,break,do,else,elseif,end,false,for,function,if,in,local,
+     nil,not,or,repeat,return,then,true,until,while},
+   morekeywords={[2]arg,assert,collectgarbage,dofile,error,_G,getfenv,
+     getmetatable,ipairs,load,loadfile,loadstring,next,pairs,pcall,print,
+     rawequal,rawget,rawset,select,setfenv,setmetatable,tonumber,tostring,
+     type,unpack,_VERSION,xpcall},
+   morekeywords={[2]coroutine.create,coroutine.resume,coroutine.running,
+     coroutine.status,coroutine.wrap,coroutine.yield},
+   morekeywords={[2]module,require,package.cpath,package.load,package.loaded,
+     package.loaders,package.loadlib,package.path,package.preload,
+     package.seeall},
+   morekeywords={[2]string.byte,string.char,string.dump,string.find,
+     string.format,string.gmatch,string.gsub,string.len,string.lower,
+     string.match,string.rep,string.reverse,string.sub,string.upper},
+   morekeywords={[2]table.concat,table.insert,table.maxn,table.remove,
+   table.sort},
+   morekeywords={[2]math.abs,math.acos,math.asin,math.atan,math.atan2,
+     math.ceil,math.cos,math.cosh,math.deg,math.exp,math.floor,math.fmod,
+     math.frexp,math.huge,math.ldexp,math.log,math.log10,math.max,math.min,
+     math.modf,math.pi,math.pow,math.rad,math.random,math.randomseed,math.sin,
+     math.sinh,math.sqrt,math.tan,math.tanh},
+   morekeywords={[2]io.close,io.flush,io.input,io.lines,io.open,io.output,
+     io.popen,io.read,io.tmpfile,io.type,io.write,file:close,file:flush,
+     file:lines,file:read,file:seek,file:setvbuf,file:write},
+   morekeywords={[2]os.clock,os.date,os.difftime,os.execute,os.exit,os.getenv,
+     os.remove,os.rename,os.setlocale,os.time,os.tmpname},
+   alsodigit = {.},
+   sensitive=true,
+   morecomment=[l]{--},
+   morecomment=[s]{--[[}{]]},
+   morestring=[b]",
+   morestring=[d]',
+   morestring=[s]{[[}{]]},
+  }
+
 \lstset{ %
   language=C++,                     % choose the language of the code
   basicstyle=\ttfamily\scriptsize,  % the size of the fonts that are used for the code
@@ -74,45 +114,55 @@
 \frame{\tableofcontents}
 
 %-------------------------------------
-\section{Introdução e breve histórico}
+\section{Introdução: Motivações e Objetivos}
 %-------------------------------------
 \frame{
   \begin{center}
-  \LARGE 1. Introdução e breve histórico
+  \LARGE 1. Introdução: Motivações e Objetivos
   \end{center}
 }
 %-------------------------------------
-\frame{
-  \frametitle{Histórico}
+\begin{frame}[fragile]
+  \frametitle{Sistema de \textit{scripts} da UGDK}
+  \pause
+  \begin{figure}
+    \includegraphics[width=.8\textwidth]{images/horus+sublime.png}
+  \end{figure}
+  \vspace{-10pt}
   \begin{itemize}
-    \item Projeto da PUC-Rio (Tecgraf e LabLua)
     \pause
-    \item Site oficial: www.lua.org
+    \item Interface única para diferentes linguagens de script
     \pause
-    \item Últimas versões:
+    \item Exportação automatizada das classes em C++ (via SWIG).
+  \end{itemize}
+\end{frame}
+%-------------------------------------
+\frame{
+  \frametitle{Proposta de TCC}
+  \pause
+  \vspace{-20pt}
+  \begin{center}
+    Projeto Ouroboros
+  \end{center}
+  \vspace{20pt}
+  \begin{itemize}
     \pause
-    \begin{itemize}
-      \item 5.0 (obsoleto)
-      \pause
-      \item 5.1 (atual)
-      \pause
-      \item 5.2 (muito hipster ainda)
-    \end{itemize}
+    \item Remover dependência com o SWIG
+    \vspace{10pt}
+    \pause
+    \item Independência da UGDK
+    \vspace{10pt}
+    \pause
+    \item Deixar o mais fácil possivel para o usuário
   \end{itemize}
 }
 %-------------------------------------
+\section{Alguns Conceitos}
+%-------------------------------------
 \frame{
-  \frametitle{Principais características}
-  \begin{itemize}
-    \pause
-    \item Simplicidade
-    \pause
-    \item Eficiência
-    \pause
-    \item Versatilidade
-    \pause
-    \item Leveza
-  \end{itemize}
+  \begin{center}
+  \LARGE 2. Alguns Conceitos
+  \end{center}
 }
 %-------------------------------------
 \begin{frame}[fragile]
@@ -122,26 +172,20 @@
     \column[t]{.5\textwidth}
       \begin{block}{helloworld.lua}
         \begin{lstlisting}
-// My hello world Lua program:
-print("Hello World!");
+// My hello world C++ program:
+printf("Hello World!");
         \end{lstlisting}
       \end{block}
     \pause
     \column[t]{.5\textwidth}
       \begin{block}{Saída}
-        \begin{verbatim}
-Hello World!  \end{verbatim}
+        \begin{lstlisting}[language=lua]
+-- My hello world Lua program
+print "Hello World"
+        \end{lstlisting}
       \end{block}
   \end{columns}
 \end{frame}
-%-------------------------------------
-\section{Expressões básicas}
-%-------------------------------------
-\frame{
-  \begin{center}
-  \LARGE 2. Expressões básicas
-  \end{center}
-}
 %-------------------------------------
 \subsection{2.1. Tipos escalares.}
 %-------------------------------------
