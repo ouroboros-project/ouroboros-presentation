@@ -15,17 +15,20 @@ Introdução: Motivações e objetivos
   * Proposta de TCC
     - SWIG sux
     - Emancipação do sistema de script para o glorioso PROJETO OUROBOROS
+
 Alguns conceitos
 ----------------
   * Linguagens de *script*: afinal o que são?
   * Máquinas virtuais
     - APIs
     - Compilador/interpretador
+
 O sistema
 ---------
   * Visão geral
 ### Incorporação
 ### Exportação
+
 Conclusões
 ----------
 
