@@ -26,7 +26,9 @@ Alguns conceitos
 O sistema
 ---------
   * Visão geral
+
 ### Incorporação
+
 ### Exportação
 
 Conclusões
