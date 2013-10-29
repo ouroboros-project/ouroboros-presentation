@@ -18,10 +18,13 @@ Introdução: Motivações e objetivos
 
 Alguns conceitos
 ----------------
+  + Linguagens de programação
+    - Definição com base na bibliografia
   + Linguagens de *script*: afinal o que são?
+    - Compilação vs Interpretação
   + Máquinas virtuais
-    - APIs
-    - Compilador/interpretador
+    - Linguagem nativa vs. Linguagem virtual
+    - API nativa
 
 O sistema
 ---------
