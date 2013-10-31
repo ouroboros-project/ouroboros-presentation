@@ -94,7 +94,6 @@
   escapeinside={\%*}{*)},           % if you want to add a comment within your code
   %backgroundcolor=\color[rgb]{1.0,1.0,1.0}, % choose the background color.
   %rulecolor=\color[rgb]{0.8,0.8,0.8},
-  basicstyle=\ttfamily\scriptsize,
   keywordstyle=\color{blue}\bfseries,
   keywordstyle=[2]\color[rgb]{.4,0,.4}\bfseries,
   commentstyle=\color[rgb]{0,.6,0},
@@ -300,46 +299,69 @@
 }
 %-------------------------------------
 \begin{frame}[fragile]
-  \frametitle{Exercício 1.1: Hello World!!!}
+  \frametitle{O que é incorporação?}
   \pause
-  \begin{columns}
-    \column[t]{.5\textwidth}
-      \begin{block}{helloworld.lua}
-        \begin{lstlisting}
-// My hello world C++ program:
-printf("Hello World!");
-        \end{lstlisting}
-      \end{block}
-    \pause
-    \column[t]{.5\textwidth}
-      \begin{block}{Saída}
-        \begin{lstlisting}[language=lua]
--- My hello world Lua program
-print "Hello World"
-        \end{lstlisting}
-      \end{block}
-  \end{columns}
+  \begin{block}{myscript.lua}
+    \begin{lstlisting}[language=lua]
+variable = 42
+function foo (x, y)
+  return x+y
+end
+    \end{lstlisting}
+  \end{block}
+  \pause
+  \begin{block}{myprog.cxx}
+    \begin{lstlisting}
+ScriptManager *manager = SCRIPT_MANAGER();
+// Load the script
+VirtualObj myscript = manager->LoadModule("myscript");
+// Gets the value 42
+int script_integer = myscript["variable"].value<int>();
+// Results in 9001
+int result = myscript["foo"](9000, 1).value<int>();
+    \end{lstlisting}
+  \end{block}
+\end{frame}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Como funciona?}
+  \pause
+  \begin{block}{Incorporando com Lua}
+    \begin{lstlisting}
+// L is a lua_State*
+lua_getfield(L, LUA_GLOBALSINDEX, "variable");
+// The value is put on the top of the stack
+int value = lua_tointeger(L, -1);
+    \end{lstlisting}
+  \end{block}
+  \pause
+  \begin{block}{Incorporando com Python}
+    \begin{lstlisting}
+// module is a PyObject*
+PyObject *var = PyObject_GetAttrString(module, "variable");
+// var contains the value we want
+int value = PyInt_AsLong(var);
+    \end{lstlisting}
+  \end{block}
 \end{frame}
 %-------------------------------------
 \frame{
-  \frametitle{Blocos}
+  \frametitle{Interface Unificada}
+  \pause
+  \begin{center}
+    \Large
+    Ouroboros Project API \\
+    (OPA)
+  \end{center}
+  \pause
+  Principais classes:
   \begin{itemize}
     \pause
-    \item Um script lua apresenta uma hierarquia de blocos.
+    \item \texttt{VirtualObj}: abstrai quaisquer objetos de \textit{script}.
     \pause
-    \item Um bloco é uma sequência de comandos, como os
-          exemplos que vimos até agora.
+    \item \texttt{VirtualMachine}: abstrai cada linguagem virtual.
     \pause
-    \item Um bloco pode ter outros blocos dentro de si,
-          através de:
-    \begin{itemize}
-      \pause
-      \item estruturas de controle (if, while, for, etc);
-      \pause
-      \item definições de funções; ou
-      \pause
-      \item uso explícito de "do..end".
-    \end{itemize}
+    \item \texttt{ScriptManager}: gerencia as máquinas virtuais.
   \end{itemize}
 }
 %-------------------------------------
