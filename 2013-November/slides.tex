@@ -301,14 +301,26 @@
 \begin{frame}[fragile]
   \frametitle{O que é incorporação?}
   \pause
-  \begin{block}{myscript.lua}
-    \begin{lstlisting}[language=lua]
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{myscript.lua}
+        \begin{lstlisting}[language=lua]
 variable = 42
 function foo (x, y)
   return x+y
 end
-    \end{lstlisting}
-  \end{block}
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{myscript.py}
+        \begin{lstlisting}[language=python]
+variable = 42
+def foo(x, y):
+  return x+y
+        \end{lstlisting}
+      \end{block}
+  \end{columns}
   \pause
   \begin{block}{myprog.cxx}
     \begin{lstlisting}
@@ -365,30 +377,88 @@ int value = PyInt_AsLong(var);
   \end{itemize}
 }
 %-------------------------------------
-\frame{
-  \frametitle{Visibilidade}
+\begin{frame}[fragile]
+  \frametitle{Implementação}
+  \pause
+  \begin{center}
+    \Large
+    Polimorfismo!
+  \end{center}
+  \pause
+  \vspace{-1em}
+  \begin{figure}
+    \includegraphics[width=.9\textwidth]{images/implementation.png}
+  \end{figure}
+\end{frame}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Tipos definidos pelo Usuário}
+  \pause
+  E se eu quiser fazer isso?
+  \pause
+  \begin{block}{Usando tipo do usuário}
+    \begin{lstlisting}
+// Load the script
+VirtualObj myscript = manager->LoadModule("myscript");
+// Some object
+MyClass *object = myscript["object"].value<MyClass*>();
+    \end{lstlisting}
+  \end{block}
   \begin{itemize}
     \pause
-    \item Variáveis globais são visíveis a partir de
-          qualquer bloco, contanto que não esteja
-          obscurecida por alguma variável local visível
-          de mesmo nome.
+    \item A máquina virtual tem que conhecer \texttt{MyClass}.
     \pause
-    \item Variáveis locais são visíveis no bloco em que
-          foram declaradas e nos blocos aninhados nele,
-          contanto que sejam referenciadas após a linha em
-          que foram definidas.
+    \item Precisa lidar com herança.
     \pause
-    \item Se um bloco tenta acessar uma variável que não
-          está visível de jeito nenhum para ele, ele
-          receberá um 'nil'.
+    \item Tem que gerenciar a memória.
   \end{itemize}
+\end{frame}
+%-------------------------------------
+\subsection{Exportação}
+%-------------------------------------
+\frame{
+  \begin{center}
+    \Large
+    3.3. Exportação \\
+  \end{center}
 }
 %-------------------------------------
-%% TODO: exercício "o i do for é global ou local?"
-\frame{
-  \frametitle{Exercício 3.3}
-}
+\begin{frame}[fragile]
+  \frametitle{O que é exportação?}
+  \pause
+  \begin{block}{myprog.h}
+    \begin{lstlisting}
+class MyClass { /* ... */ };
+
+int foo (int x, int y) { return x+y; }
+    \end{lstlisting}
+  \end{block}
+  \pause
+  \begin{columns}
+    \column[t]{.5\textwidth}
+      \begin{block}{myscript.lua}
+        \begin{lstlisting}[language=lua]
+require 'myprog'
+
+obj = myprog.MyClass()
+
+print(myprog.foo(9000, 1))
+        \end{lstlisting}
+      \end{block}
+    \pause
+    \column[t]{.5\textwidth}
+      \begin{block}{myscript.py}
+        \begin{lstlisting}[language=python]
+from myprog import MyClass
+from myprog import foo
+
+obj = MyClass()
+
+print(foo(9000, 1))
+        \end{lstlisting}
+      \end{block}
+  \end{columns}
+\end{frame}
 %-------------------------------------
 \section{Funções}
 %-------------------------------------
