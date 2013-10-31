@@ -199,44 +199,105 @@
 \end{frame}
 %-------------------------------------
 \begin{frame}[fragile]
-  \frametitle{Máquinas virtuais}
+  \frametitle{O interpretador}
   %\pause
   %\begin{center}
   %  Linguagem Nativa vs. Linguagem Virtual
   %\end{center}
-  \pause
   \begin{figure}
     \includegraphics[height=.5\textheight]{images/interpretador.png}
   \end{figure}
 \end{frame}
 %-------------------------------------
 \begin{frame}[fragile]
-  \frametitle{Máquinas virtuais}
+  \frametitle{Como ele funciona?}
   \begin{figure}
     \includegraphics[height=.5\textheight]{images/nativo-vs-virtual-01.png}
   \end{figure}
 \end{frame}
 %-------------------------------------
 \begin{frame}[fragile]
-  \frametitle{Máquinas virtuais}
+  \frametitle{Linguagem Nativa e Linguagem Virtual}
   \begin{figure}
     \includegraphics[height=.5\textheight]{images/nativo-vs-virtual-02.png}
   \end{figure}
 \end{frame}
 %-------------------------------------
 \begin{frame}[fragile]
-  \frametitle{Máquinas virtuais}
+  \frametitle{A Máquina Virtual}
   \begin{figure}
     \includegraphics[height=.6\textheight]{images/nativo-vs-virtual-03.png}
   \end{figure}
 \end{frame}
 %-------------------------------------
 \begin{frame}[fragile]
-  \frametitle{Máquinas virtuais}
+  \frametitle{A API Nativa}
   \begin{figure}
     \includegraphics[height=.6\textheight]{images/nativo-vs-virtual-04.png}
   \end{figure}
 \end{frame}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Onde queremos mexer}
+  \begin{figure}
+    \includegraphics[height=.6\textheight]{images/nativo-vs-virtual-05.png}
+  \end{figure}
+\end{frame}
+%-------------------------------------
+\section{O Sistema}
+%-------------------------------------
+\frame{
+  \begin{center}
+  \LARGE 3. O Sistema
+  \end{center}
+}
+%-------------------------------------
+\subsection{Visão Geral}
+%-------------------------------------
+\frame{
+  \begin{center}
+  \Large 3.1. Visão Geral
+  \end{center}
+}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{O Problema}
+  \pause
+  \begin{block}{}
+    Integrar, de maneira automatizada, uma linguagem nativa (\texttt{C++}) com
+    mais de uma linguagem de \textit{script} (\texttt{Lua} e \texttt{Python}).
+  \end{block}
+  \pause
+  %TODO Dividir essar imagem?
+  \begin{figure}
+    \includegraphics[width=.7\textwidth]{images/overview-simple.png}
+  \end{figure}
+\end{frame}
+%-------------------------------------
+\frame{
+  \frametitle{Os casos}
+  \pause
+  A integração ocorre em dois sentidos:
+  \begin{itemize}
+    \pause
+    \vspace{1em}
+    \item Máquina Virtual $\Rightarrow$ Aplicação: \textbf{Incorporação}.
+    \pause
+    \vspace{1em}
+    \item Aplicação $\Rightarrow$ Máquina Virtual: \textbf{Exportação}.
+  \end{itemize}
+}
+%-------------------------------------
+\subsection{Incorporação}
+%-------------------------------------
+\frame{
+  \begin{center}
+    \Large
+    3.2. Incorporação \\
+    \normalsize
+    (a.k.a. \textit{embedding})
+  \end{center}
+}
 %-------------------------------------
 \begin{frame}[fragile]
   \frametitle{Exercício 1.1: Hello World!!!}
@@ -259,75 +320,6 @@ print "Hello World"
       \end{block}
   \end{columns}
 \end{frame}
-%-------------------------------------
-\subsection{2.1. Tipos escalares.}
-%-------------------------------------
-\frame{
-  \begin{center}
-  \Large 2.1. Tipos escalares
-  \end{center}
-}
-%-------------------------------------
-\frame{
-  \frametitle{Tipagem Dinâmica}
-  \begin{itemize}
-    \pause
-    \item Comum em linguagens de script.
-    \pause
-    \item O tipo de uma variável é definido pelo valor atual dela.
-    \pause
-    \item Portanto, o tipo de uma variável pode mudar ao longo do
-          programa.
-  \end{itemize}
-}
-%-------------------------------------
-\subsection{2.2. Operações básicas}
-%-------------------------------------
-\frame{
-  \begin{center}
-  \Large 2.2. Operações básicas
-  \end{center}
-}
-%-------------------------------------
-%% TODO: exercício
-\frame{
-  \frametitle{Exercício 2.1}
-}
-%-------------------------------------
-\section{Expressões de controle}
-%-------------------------------------
-\frame{
-  \begin{center}
-  \LARGE 3. Expressões de controle
-  \end{center}
-}
-%-------------------------------------
-\subsection{3.1. Estruturas}
-%-------------------------------------
-\frame{
-  \begin{center}
-  \Large 3.1. Estruturas
-  \end{center}
-}
-%-------------------------------------
-%% TODO: exercício
-\frame{
-  \frametitle{Exercício 3.1}
-}
-%-------------------------------------
-%% TODO: exercício
-%% sugestão: fazer um mesmo loop usando while, repeat e for.
-\frame{
-  \frametitle{Exercício 3.2}
-}
-%-------------------------------------
-\subsection{3.2. Escopo.}
-%-------------------------------------
-\frame{
-  \begin{center}
-  \Large 3.2. Escopo
-  \end{center}
-}
 %-------------------------------------
 \frame{
   \frametitle{Blocos}
