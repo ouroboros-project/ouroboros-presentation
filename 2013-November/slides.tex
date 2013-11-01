@@ -125,7 +125,7 @@
   \frametitle{Sistema de \textit{scripts} da UGDK}
   \pause
   \begin{figure}
-    \includegraphics[width=.8\textwidth]{images/horus+sublime.png}
+    \includegraphics[width=.9\textwidth]{images/horus+sublime.png}
   \end{figure}
   \vspace{-10pt}
   \begin{itemize}
@@ -460,11 +460,129 @@ print(foo(9000, 1))
   \end{columns}
 \end{frame}
 %-------------------------------------
-\section{Funções}
+\begin{frame}[fragile]
+  \frametitle{Como funciona: Lua}
+  \pause
+  \begin{block}{Lua\_myprog\_wrap.cxx}
+    \begin{lstlisting}
+int wrap_foo (lua_State* L) {
+  int arg0 = lua_tointeger(L, 1),
+      arg1 = lua_tointeger(L, 2);
+  lua_settop(L, 0);
+  int result = foo(arg0, arg1);
+  lua_pushinteger(L, result);
+  return 1;
+}
+
+luaL_Reg functions[] = { { "foo", warp_foo }, ... };
+
+int luaopen_myprog (lua_State *L) {
+  lua_newtable(L);
+  luaL_register(L, nullptr, functions);
+  return 1;
+}
+    \end{lstlisting}
+  \end{block}
+\end{frame}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Como funciona: Python}
+  \pause
+  \begin{block}{Python\_myprog\_wrap.cxx}
+    \begin{lstlisting}
+PyObject* wrap_foo (PyObject* self, PyObject* args) {
+  PyObject *arg0 = PyTuple_GetItem(args, 0),
+           *arg1 = PyTuple_GetItem(args, 1);
+  int arg0_value = PyInt_AsLong(arg0),
+      arg1_value = PyInt_AsLong(arg1);
+  int result_value = foo(arg0_value, arg1_value);
+  PyObject *result = PyInt_FromLong(result_value);
+  return result;
+}
+
+static PyMethodDef myprogmethods[] = {
+  {"foo", wrap_foo, ... }, ...
+};
+
+PyMODINIT_FUNC initmyprog (void) {
+  Py_InitModule("myprog", myprogmethods);
+}
+    \end{lstlisting}
+  \end{block}
+\end{frame}
+%-------------------------------------
+\begin{frame}[fragile]
+  \begin{center}
+    Como vocês podem ver... \pause É muito chato!
+  \end{center}
+  \pause
+  \begin{center}
+    \textbf{Precisamos gerar esse código automaticamente!}
+  \end{center}
+\end{frame}
+%-------------------------------------
+\frame{
+  \frametitle{Primeira solução}
+  \pause
+  \begin{center}
+    \Large
+    Simple Wrapper and Interface Generator \\
+    (SWIG)
+  \end{center}
+  \pause
+  Faz o ``trabalho sujo'' para nós, mas tem problemas:
+  \begin{itemize}
+    \pause
+    \item Não permite herança de classes exportadas.
+    \pause
+    \item Não reconhece certas estruturas, como classes aninhadas.
+    \pause
+    \item Complicações para gerenciar a memória.
+    \pause
+    \item Uma interface não muito agradável.
+  \end{itemize}
+}
+%-------------------------------------
+\frame{
+  \frametitle{Segunda solução}
+  \pause
+  \begin{center}
+    \Large
+    Ouroboros Project Wrapper and Interface Generator \\
+    (OPWIG)
+  \end{center}
+  \pause
+  Principais partes:
+  \begin{itemize}
+    \pause
+    \item \textit{Parser}: analiza as declarações em \texttt{C++} do usuário.
+    \pause
+    \item Metadados: abstraem as declarações analizadas.
+    \pause
+    \item Gerador: gera o código dos \textit{wrappers} com base nos metadados.
+  \end{itemize}
+}
+%-------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Implementação do \textit{Parser}}
+  \pause
+  \vspace{-1em}
+  \begin{figure}
+    \includegraphics[width=.4\textwidth]{images/flex.jpg}
+    \pause
+    \includegraphics[width=.4\textwidth]{images/bison.jpg}
+  \end{figure}
+  \pause
+  \begin{center}
+    \texttt{Flexc++} e \texttt{Bisonc++} por Frank B. Brokken [2][3]
+  \end{center}
+\end{frame}
+%-------------------------------------
+\section{Conclusões}
 %-------------------------------------
 \frame{
   \begin{center}
-  \LARGE 4. Funções
+  \LARGE 4. Conclusões
   \end{center}
 }
 %-------------------------------------
