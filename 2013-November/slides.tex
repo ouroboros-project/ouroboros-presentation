@@ -108,7 +108,10 @@
   morekeywords={[2]include,ifdef,define,ifndef,endif,}
 }
 
-\frame{\titlepage}
+\frame{
+  \titlepage
+  Orientador: Prof. Dr. Marco Dimas Gubitoso
+}
 
 \frame{\tableofcontents}
 
@@ -586,169 +589,59 @@ PyMODINIT_FUNC initmyprog (void) {
   \end{center}
 }
 %-------------------------------------
-\subsection{4.1. Criando e usando funções}
-%-------------------------------------
 \frame{
+  \frametitle{Funciona?}
+  \pause
   \begin{center}
-  \Large 4.1. Criando e usando funções
+    Testes!
   \end{center}
-}
-%-------------------------------------
-%% TODO exercício
-\frame{
-  \frametitle{Exercício 4.1}
-}
-%-------------------------------------
-%% TODO exercício
-\frame{
-  \frametitle{Exercício 4.2}
-}
-%-------------------------------------
-\subsection{4.2. Upvalues}
-%-------------------------------------
-\frame{
-  \begin{center}
-  \Large 4.2. Upvalues
-  \end{center}
-}
-%-------------------------------------
-%% TODO exercício
-%% - a variável "upvalue" era necessária?
-\frame{
-  \frametitle{Exercício 4.3}
-}
-%-------------------------------------
-\section{Tabelas}
-%-------------------------------------
-\frame{
-  \begin{center}
-  \LARGE 5. Tabelas
-  \end{center}
-}
-%-------------------------------------
-\subsection{5.1. Criando e manipulando tabelas}
-%-------------------------------------
-\frame{
-  \begin{center}
-  \Large 5.1. Criando e manipulando tabelas
-  \end{center}
-}
-%-------------------------------------
-%% TODO: exercício
-\frame{
-  \frametitle{Exercício 5.1}
-}
-%-------------------------------------
-%% TODO: exercício
-\frame{
-  \frametitle{Exercício 5.2}
-}
-%% - sugestão: construir "tabuada"
-%-------------------------------------
-%% TODO: exercício
-\frame{
-  \frametitle{Exercício 5.3}
-}
-%% - desafio: qual a diferença entre
-%%   usar pairs e usar foreach?
-%-------------------------------------
-%% TODO exercício
-\frame{
-  \frametitle{Exercício 5.4}
-}
-%-------------------------------------
-\begin{frame}[fragile]
-  \frametitle{Possibilidades e restrições}
   \begin{itemize}
     \pause
-    \item Praticamente QUALQUER COISA pode ser inserido em uma
-          tabela de Lua, seja como chave ou como valor.
+    \item Sistema antigo: usado pelo Horus Eye e pelo Asteroids Wars.
     \pause
-    \item Isso significa que tabelas podem ter outras tabelas e
-          até mesmo funçoes como chaves e valores!
+    \vspace{1em}
+    \item \textit{Parser} e metadados: testes de unidade e de funcionalidade,
+          usando \texttt{gooogletest} [4] e Travis [5].
     \pause
-    \item A ÚNICA EXCEÇÃO é o \verb$nil$:
-    \begin{itemize}
-      \pause
-      \item Chaves NUNCA podem ser \verb$nil$ (isso causa um erro)
-      \pause
-      \item Campos com valores \verb$nil$ são removidos da tabela.
-    \end{itemize}
+    \vspace{1em}
+    \item OPA e OPWIG: testes de aceitação na forma de \textit{milestones}.
   \end{itemize}
-\end{frame}
-%-------------------------------------
-%% TODO exercício
-\frame{
-  \frametitle{Exercício 5.5}
 }
 %-------------------------------------
-\subsection{5.2. Atalhos}
-%-------------------------------------
 \frame{
-  \begin{center}
-  \Large 5.2. Atalhos
-  \end{center}
+  \frametitle{Dificuldades}
+  \begin{itemize}
+    \pause
+    \item Compatibilidade com \texttt{C++11} em Windows.
+    \pause
+    \vspace{1em}
+    \item \texttt{C++} não tem uma gramática livre de contexto.
+    \pause
+    \vspace{1em}
+    \item Falta de planejamento no começo.
+  \end{itemize}
 }
 %-------------------------------------
-%% TODO exercício
 \frame{
-  \frametitle{Exercício 5.6}
-}
-%-------------------------------------
-\section{Bibliotecas básicas}
-%-------------------------------------
-\frame{
-  \begin{center}
-    \LARGE 6. Bibliotecas básicas
-  \end{center}
-}
-%-------------------------------------
-\begin{frame}
-  \vspace{15pt}
-  Em inglês: \url{http://www.lua.org/manual/5.1/}
-
-  Em português: \url{http://www.lua.org/manual/5.1/pt/}
-\end{frame}
-%-------------------------------------
-%% TODO exercício
-\frame{
-  \frametitle{Exercícios 6.*}
+  \frametitle{Próximos passos}
+  \begin{itemize}
+    \pause
+    \item Lançamento oficial (organizar repositórios, criar página oficial...)
+    \pause
+    \vspace{1em}
+    \item Dar suporte a mais linguagens!
+    \pause
+    \vspace{1em}
+    \item Explorar usos alternativos com programação reflexiva em \texttt{C++}
+  \end{itemize}
 }
 %-------------------------------------
 \section{Unlimited slide works}
-%-------------------------------------
-\frame{
-  \begin{center}
-    \LARGE ENFIM...
-  \end{center}
-}
-%-------------------------------------
-\begin{frame}
-  \frametitle{Tópicos avançados que não aparecem nos slides}
-  \begin{itemize}
-    \item Tipos thread e userdata.
-    \item Bibliotecas avançadas: module. debug e thread.
-    \item Ambientes de funções.
-    \item Metatabelas.
-    \item API C.
-  \end{itemize}
-\end{frame}
 %-------------------------------------
 \begin{frame}
   \begin{center}
     \LARGE Obrigado!
   \end{center}
-  \begin{itemize}
-    \item Visitem www.uspgamedev.org
-    \item Dúvidas: kazuo@uspgamedev.org
-    \item Se seu interesse for desenvolvimento de games,
-          vale MUITO a pena dar uma conferida na engine
-          LÖVE2D.
-    \begin{itemize}
-      \item Site oficial: www.love2d.org
-      \item Jogo feito com LÖVE2D: http://stabyourself.net/mari0
-    \end{itemize}
-  \end{itemize}
 \end{frame}
 %-------------------------------------
 \begin{frame}
@@ -764,6 +657,18 @@ PyMODINIT_FUNC initmyprog (void) {
 
         (último acesso em 29/10/2013)
       \end{center}
+    \vspace{1em}
+    \item[2]
+      Frank B. Brokken. http://flexcpp.sourceforge.net/, Novembro 2013.
+    \vspace{1em}
+    \item[3]
+      Frank B. Brokken. http://bisoncpp.sourceforge.net/, Novembro 2013.
+    \vspace{1em}
+    \item[4]
+      Google. https://code.google.com/p/googletest/, Novembro 2013.
+    \vspace{1em}
+    \item[5]
+      Travis CI. https://travis-ci.org/, Novembro 2013.
   \end{itemize}
 \end{frame}
 %-------------------------------------
