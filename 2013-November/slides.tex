@@ -125,7 +125,7 @@
 }
 %-------------------------------------
 \begin{frame}[fragile]
-  \frametitle{Sistema de \textit{scripts} da UGDK}
+  \frametitle{Sistema de \textit{scripts} da UGDK (2011)}
   \pause
   \begin{figure}
     \includegraphics[width=.9\textwidth]{images/horus+sublime.png}
@@ -140,7 +140,7 @@
 \end{frame}
 %-------------------------------------
 \frame{
-  \frametitle{Proposta de TCC}
+  \frametitle{Proposta de TCC (2013)}
   \pause
   \vspace{-20pt}
   \begin{center}
@@ -158,54 +158,58 @@
     \item Software Livre
   \end{itemize}
 }
+%%-------------------------------------
+%\section{Alguns Conceitos}
+%%-------------------------------------
+%\frame{
+%  \begin{center}
+%  \LARGE 2. Alguns Conceitos
+%  \end{center}
+%}
+%%-------------------------------------
+%\begin{frame}[fragile]
+%  \frametitle{Linguagens de programação}
+%  \pause
+%  Segundo Anthony A. Aaby:
+%  \pause
+%  \vspace{2em}
+%  \begin{block}{}
+%    Programas \textbf{especificam uma computação} e as notações usadas para
+%    descrevê-los são ditas \textbf{linguagens de programação}. [1]
+%  \end{block}
+%  \pause
+%  \vspace{2em}
+%  \begin{center}
+%    Então o que quer dizer ``linguagem de \textit{script}''?
+%  \end{center}
+%\end{frame}
+%%-------------------------------------
+%\begin{frame}[fragile]
+%  \frametitle{Linguagens de \textit{script}}
+%  \pause
+%  \begin{center}
+%    \LARGE
+%    Compilação vs. Interpretação
+%  \end{center}
+%  \pause
+%  \begin{figure}
+%    \includegraphics[width=.2\textwidth]{images/compilador.png}
+%    \hspace{5em}
+%    \pause
+%    \includegraphics[width=.2\textwidth]{images/interpretador.png}
+%  \end{figure}
+%\end{frame}
 %-------------------------------------
-\section{Alguns Conceitos}
+\section{Por trás de uma linguagem de script}
 %-------------------------------------
 \frame{
   \begin{center}
-  \LARGE 2. Alguns Conceitos
+  \LARGE 2. Por trás de uma linguagem de \textit{script}
   \end{center}
 }
 %-------------------------------------
 \begin{frame}[fragile]
-  \frametitle{Linguagens de programação}
-  \pause
-  Segundo Anthony A. Aaby:
-  \pause
-  \vspace{2em}
-  \begin{block}{}
-    Programas \textbf{especificam uma computação} e as notações usadas para
-    descrevê-los são ditas \textbf{linguagens de programação}. [1]
-  \end{block}
-  \pause
-  \vspace{2em}
-  \begin{center}
-    Então o que quer dizer ``linguagem de \textit{script}''?
-  \end{center}
-\end{frame}
-%-------------------------------------
-\begin{frame}[fragile]
-  \frametitle{Linguagens de \textit{script}}
-  \pause
-  \begin{center}
-    \LARGE
-    Compilação vs. Interpretação
-  \end{center}
-  \pause
-  \begin{figure}
-    \includegraphics[width=.2\textwidth]{images/compilador.png}
-    \hspace{5em}
-    \pause
-    \includegraphics[width=.2\textwidth]{images/interpretador.png}
-  \end{figure}
-\end{frame}
-%-------------------------------------
-\begin{frame}[fragile]
   \frametitle{O interpretador}
-  %\pause
-  %\begin{center}
-  %  Linguagem Nativa vs. Linguagem Virtual
-  %\end{center}
   \begin{figure}
     \includegraphics[height=.5\textheight]{images/interpretador.png}
   \end{figure}
@@ -378,21 +382,24 @@ int value = PyInt_AsLong(var);
     \pause
     \item \texttt{ScriptManager}: gerencia as máquinas virtuais.
   \end{itemize}
+  \vspace{1em}
+  \pause
+  \hspace{17em} Como? \pause \textbf{Polimorfismo!}
 }
-%-------------------------------------
-\begin{frame}[fragile]
-  \frametitle{Implementação}
-  \pause
-  \begin{center}
-    \Large
-    Polimorfismo!
-  \end{center}
-  \pause
-  \vspace{-1em}
-  \begin{figure}
-    \includegraphics[width=.9\textwidth]{images/implementation.png}
-  \end{figure}
-\end{frame}
+%%-------------------------------------
+%\begin{frame}[fragile]
+%  \frametitle{Implementação}
+%  \pause
+%  \begin{center}
+%    \Large
+%    Polimorfismo!
+%  \end{center}
+%  \pause
+%  \vspace{-1em}
+%  \begin{figure}
+%    \includegraphics[width=.9\textwidth]{images/implementation.png}
+%  \end{figure}
+%\end{frame}
 %-------------------------------------
 \begin{frame}[fragile]
   \frametitle{Tipos definidos pelo Usuário}
@@ -558,9 +565,9 @@ PyMODINIT_FUNC initmyprog (void) {
   Principais partes:
   \begin{itemize}
     \pause
-    \item \textit{Parser}: analiza as declarações em \texttt{C++} do usuário.
+    \item \textit{Parser}: analisa as declarações em \texttt{C++} do usuário.
     \pause
-    \item Metadados: abstraem as declarações analizadas.
+    \item Metadados: abstraem as declarações analisadas.
     \pause
     \item Gerador: gera o código dos \textit{wrappers} com base nos metadados.
   \end{itemize}

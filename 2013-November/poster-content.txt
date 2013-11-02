@@ -1,0 +1,20 @@
+
+1. Introdução
+
+  Nosso sistema visa auxiliar o desenvolvimento de aplicações em C++ que de
+alguma forma precisem interagir com uma ou mais linguagens de script - ou
+melhor, com as máquinas virtuais que as processam.
+
+
+  Para tanto, temos que satisfazer os dois sentidos da interação: a
+incorporação e a exportação. A primeira ocorre quando a aplicação quer acessar
+algo escrito nas linguagens de script, e a segunda ocorre na situação inversa.
+
+2. Incorporação
+
+  As máquinas virtuais de Lua e Python fornecem uma API em C para acessarmos
+os objetos criados via script, mas elas são bem diferentes. Para resolver
+isso, desenvolvemos uma API unificada chamada Ouroboros Project API (OPA). Ela
+usa polimorfismo com herança em orientação a objetos para abstrair a
+implementação para cada linguagem.
+
