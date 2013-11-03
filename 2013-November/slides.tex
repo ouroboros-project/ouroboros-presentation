@@ -343,7 +343,7 @@ int result = myscript["foo"](9000, 1).value<int>();
 \end{frame}
 %-------------------------------------
 \begin{frame}[fragile]
-  \frametitle{Como funciona?}
+  \frametitle{Como funciona? [1] [2]}
   \pause
   \begin{block}{Incorporando com Lua}
     \begin{lstlisting}
@@ -581,7 +581,7 @@ PyMODINIT_FUNC initmyprog (void) {
   \end{figure}
   \pause
   \begin{center}
-    \texttt{Flexc++} e \texttt{Bisonc++} por Frank B. Brokken [2][3]
+    \texttt{Flexc++} e \texttt{Bisonc++} por Frank B. Brokken [3][4]
   \end{center}
 \end{frame}
 %-------------------------------------
@@ -605,7 +605,7 @@ PyMODINIT_FUNC initmyprog (void) {
     \pause
     \vspace{1em}
     \item \textit{Parser} e metadados: testes de unidade e de funcionalidade,
-          usando \texttt{gooogletest} [4] e Travis [5].
+          usando \texttt{gooogletest} [5] e Travis [6].
     \pause
     \vspace{1em}
     \item OPA e OPWIG: testes de aceitação na forma de \textit{milestones}.
@@ -633,6 +633,10 @@ PyMODINIT_FUNC initmyprog (void) {
     \item Lançamento oficial (organizar repositórios, criar página oficial...)
     \pause
     \vspace{1em}
+    \item Incrementar o \textit{parser} e o gerador para ele reconhecer
+          \texttt{C++} completamente (incluindo \texttt{C++11})
+    \pause
+    \vspace{1em}
     \item Dar suporte a mais linguagens!
     \pause
     \vspace{1em}
@@ -653,25 +657,21 @@ PyMODINIT_FUNC initmyprog (void) {
   \begin{itemize}
     \footnotesize
     \item[1]
-      Anthony A. Aaby. \textit{Introduction to Programming Languages}. 1996.
-      Disponível em
-      \begin{center}
-        \scriptsize
-        \url{http://www.emu.edu.tr/aelci/Courses/D-318/D-318-Files/plbook/}
-
-        (último acesso em 29/10/2013)
-      \end{center}
+      Lua C API. http://www.lua.org/manual/5.1/manual.html\#5, Novembro 2013.
     \vspace{1em}
     \item[2]
-      Frank B. Brokken. http://flexcpp.sourceforge.net/, Novembro 2013.
+      Python C API. http://docs.python.org/2/c-api/, Novembro 2013.
     \vspace{1em}
     \item[3]
-      Frank B. Brokken. http://bisoncpp.sourceforge.net/, Novembro 2013.
+      Frank B. Brokken. http://flexcpp.sourceforge.net/, Novembro 2013.
     \vspace{1em}
     \item[4]
-      Google. https://code.google.com/p/googletest/, Novembro 2013.
+      Frank B. Brokken. http://bisoncpp.sourceforge.net/, Novembro 2013.
     \vspace{1em}
     \item[5]
+      Google. https://code.google.com/p/googletest/, Novembro 2013.
+    \vspace{1em}
+    \item[6]
       Travis CI. https://travis-ci.org/, Novembro 2013.
   \end{itemize}
 \end{frame}
