@@ -440,7 +440,7 @@ MyClass *object = myscript["object"].value<MyClass*>();
     \begin{lstlisting}
 class MyClass { /* ... */ };
 
-int foo (int x, int y) { return x+y; }
+int bar (int x) { return x+x; }
     \end{lstlisting}
   \end{block}
   \pause
@@ -452,7 +452,7 @@ require 'myprog'
 
 obj = myprog.MyClass()
 
-print(myprog.foo(9000, 1))
+print(myprog.bar(1337))
         \end{lstlisting}
       \end{block}
     \pause
@@ -460,11 +460,11 @@ print(myprog.foo(9000, 1))
       \begin{block}{myscript.py}
         \begin{lstlisting}[language=python]
 from myprog import MyClass
-from myprog import foo
+from myprog import bar
 
 obj = MyClass()
 
-print(foo(9000, 1))
+print(bar(1337))
         \end{lstlisting}
       \end{block}
   \end{columns}
@@ -475,18 +475,17 @@ print(foo(9000, 1))
   \pause
   \begin{block}{Lua\_myprog\_wrap.cxx}
     \begin{lstlisting}
-int wrap_foo (lua_State* L) {
-  int arg0 = lua_tointeger(L, 1),
-      arg1 = lua_tointeger(L, 2);
+int wrap_bar (lua_State* L) {
+  int arg0 = lua_tointeger(L, 1);
   lua_settop(L, 0);
-  int result = foo(arg0, arg1);
+  int result = bar(arg0);
   lua_pushinteger(L, result);
   return 1;
 }
 
-luaL_Reg functions[] = { { "foo", warp_foo }, ... };
+luaL_Reg functions[] = { { "bar", warp_bar }, ... };
 
-int luaopen_myprog (lua_State *L) {
+int luaopen_myprog (lua_State* L) {
   lua_newtable(L);
   luaL_register(L, nullptr, functions);
   return 1;
@@ -500,18 +499,16 @@ int luaopen_myprog (lua_State *L) {
   \pause
   \begin{block}{Python\_myprog\_wrap.cxx}
     \begin{lstlisting}
-PyObject* wrap_foo (PyObject* self, PyObject* args) {
-  PyObject *arg0 = PyTuple_GetItem(args, 0),
-           *arg1 = PyTuple_GetItem(args, 1);
-  int arg0_value = PyInt_AsLong(arg0),
-      arg1_value = PyInt_AsLong(arg1);
-  int result_value = foo(arg0_value, arg1_value);
+PyObject* wrap_bar (PyObject* self, PyObject* args) {
+  PyObject *arg0 = PyTuple_GetItem(args, 0);
+  int arg0_value = PyInt_AsLong(arg0);
+  int result_value = bar(arg0_value);
   PyObject *result = PyInt_FromLong(result_value);
   return result;
 }
 
 static PyMethodDef myprogmethods[] = {
-  {"foo", wrap_foo, ... }, ...
+  {"bar", wrap_bar, ... }, ...
 };
 
 PyMODINIT_FUNC initmyprog (void) {
