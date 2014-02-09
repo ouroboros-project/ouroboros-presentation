@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="23cm" height="15cm" viewBox="258 118 443 282" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <g>
+      <rect style="fill: #5895a4" x="356" y="120" width="248" height="39"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #5895a4" x="356" y="120" width="248" height="39"/>
+    </g>
+    <text font-size="18.0622" style="fill: #000000;text-anchor:middle;font-family:Ubuntu;font-style:normal;font-weight:normal" x="480" y="146.2">
+      <tspan x="480" y="146.2">Aplicação do Usuário</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #000000" x1="480" y1="169.963" x2="480" y2="218.028"/>
+    <polygon style="fill: #000000" points="480,225.528 475,215.528 480,218.028 485,215.528 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #000000" points="480,225.528 475,215.528 480,218.028 485,215.528 "/>
+  </g>
+  <text font-size="13.5467" style="fill: #000000;text-anchor:middle;font-family:Ubuntu;font-style:normal;font-weight:normal" x="540" y="196.368">
+    <tspan x="540" y="196.368">Evoca um servico</tspan>
+    <tspan x="540" y="213.301">de um script</tspan>
+  </text>
+  <path style="fill: none; fill-opacity:0; stroke-width: 4; stroke: #ab3312" d="M 480 289 C 480,349.5 620,289.352 620,350"/>
+  <path style="fill: none; fill-opacity:0; stroke-width: 4; stroke-dasharray: 4; stroke: #7f7f7f" d="M 480 290.001 C 480,350.001 340,310 340,350"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 4; stroke-dasharray: 4; stroke: #7f7f7f" x1="480" y1="289.949" x2="480" y2="349.051"/>
+  <g>
+    <g>
+      <rect style="fill: #5895a4" x="280" y="360" width="120" height="39" rx="200" ry="200"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke-linejoin: round; stroke: #5895a4" x="280" y="360" width="120" height="39" rx="200" ry="200"/>
+    </g>
+    <text font-size="13.5467" style="fill: #000000;text-anchor:middle;font-family:Ubuntu;font-style:normal;font-weight:normal" x="340" y="384.525">
+      <tspan x="340" y="384.525">Máquina Virtual A</tspan>
+    </text>
+  </g>
+  <g>
+    <g>
+      <rect style="fill: #5895a4" x="420" y="360" width="120" height="39" rx="200" ry="200"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke-linejoin: round; stroke: #5895a4" x="420" y="360" width="120" height="39" rx="200" ry="200"/>
+    </g>
+    <text font-size="13.5467" style="fill: #000000;text-anchor:middle;font-family:Ubuntu;font-style:normal;font-weight:normal" x="480" y="384.525">
+      <tspan x="480" y="384.525">Máquina Virtual B</tspan>
+    </text>
+  </g>
+  <g>
+    <g>
+      <rect style="fill: #5895a4" x="560" y="360" width="120" height="39" rx="200" ry="200"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke-linejoin: round; stroke: #5895a4" x="560" y="360" width="120" height="39" rx="200" ry="200"/>
+    </g>
+    <text font-size="13.5467" style="fill: #000000;text-anchor:middle;font-family:Ubuntu;font-style:normal;font-weight:normal" x="620" y="384.525">
+      <tspan x="620" y="384.525">Máquina Virtual C</tspan>
+    </text>
+  </g>
+  <g>
+    <g>
+      <rect style="fill: #5895a4" x="260" y="240" width="440" height="39"/>
+      <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #5895a4" x="260" y="240" width="440" height="39"/>
+    </g>
+    <text font-size="18.0622" style="fill: #000000;text-anchor:middle;font-family:Ubuntu;font-style:normal;font-weight:normal" x="480" y="266.2">
+      <tspan x="480" y="266.2">API unificada</tspan>
+    </text>
+  </g>
+</svg>
